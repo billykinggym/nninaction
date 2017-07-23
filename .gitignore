@@ -4,3 +4,5 @@ figure/
 *.md
 *.docx
 .RData
+*.rmd
+res/
