@@ -1,0 +1,8 @@
+*.swp
+*.Rhistory
+figure/
+*.md
+*.docx
+.RData
+*.html
+*_files/

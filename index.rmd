@@ -1,0 +1,36 @@
+---
+title: "自己动手写神经网络"
+author: 
+  - "Billy"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    self_contained: no
+    css: index.css
+  #pdf_document: default
+  #word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+library("gym.plantuml")
+```
+
+## 开启神经网络之旅
+
+欢迎各位有志之士来到这里，闲话少说，让我们一起开启神经网络之旅吧！
+![自己动手写神经网络 封面](res/face.png)
+
+### [全书代码下载](http://www.uucode.net/201702/nncode)
+
+
+## 
+    
+
+
+    
+
