@@ -6,3 +6,4 @@ figure/
 .RData
 *.html
 *_files/
+*.log
