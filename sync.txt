@@ -5,14 +5,14 @@ load <default>
  
 # Load the base folders
  
-load "E:\SOHO_Working\自媒体\git-pages\自己动手写神经网络\master\index_files" "E:\SOHO_Working\自媒体\git-pages\自己动手写神经网络\gh-pages\index_files"
+load "index_files" "..\gh-pages\index_files"
  
 # Copy different files left to right, delete orphans on right
  
 sync create-empty mirror:lt->rt
 
-load "E:\SOHO_Working\自媒体\git-pages\自己动手写神经网络\master\res" "E:\SOHO_Working\自媒体\git-pages\自己动手写神经网络\gh-pages\res"
- 
+load "res" "..\gh-pages\res"
+
 # Copy different files left to right, delete orphans on right
  
 sync create-empty mirror:lt->rt
