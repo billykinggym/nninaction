@@ -1,0 +1,17 @@
+
+
+
+## 神经网络框架Neuroph介绍
+
+### Neuroph系统的构成
+![人工神经元的模型](res/neuroph-arch.png)
+
+  
+
+### Neuroph Studio的功能展示
+![人工神经元的模型](res/neuroph-show.png)
+
+
+
+    
+

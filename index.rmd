@@ -2,13 +2,23 @@
 title: "自己动手写神经网络"
 author: 
   - "Billy"
+date:  2017年8月
 output:
-  html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 3
+  revealjs::revealjs_presentation:
+    theme: black
+    center: true
     self_contained: no
-    css: res/index.css
+    # highlight: espresso
+    highlight: zenburn
+    css:
+      - res/temp-revealjs.css
+    reveal_options:
+      mouseWheel: true
+    reveal_plugins: menu
+    includes:
+       after_body: res/revealjs_afterbody.htm
+    slide_level: 3
+
   #pdf_document: default
   #word_document: default
 ---
@@ -21,23 +31,53 @@ library("gym.plantuml")
 alreadset <<- TRUE
 ```
 
-## 开启神经网络之旅
+### 开启神经网络之旅
 
-欢迎各位有志之士来到这里，闲话少说，让我们一起开启神经网络之旅吧！
+本PPT仅为《自己动手写神经网络》的提纲摘要
 ![自己动手写神经网络 封面](res/face.jpg)
+
+### 如何阅读我？
+
+* 大家看到`右下角`箭头了吗？向左的箭头表示下一章节，向下的箭头表示下一页
+* 看到`左下角`的菜单了吗，可以随意穿梭于整个文档
+* 那么开始愉快的阅读吧！
 
 ### [全书代码下载](http://www.uucode.net/201702/nncode)
 
 ### 购买此书
 
+[购买地址](http://www.uucode.net/201702/nncode)
+
 ```{r child = 'ch2.rmd'}
+# 人工神经元模型
+```
+
+```{r child = 'ch3.rmd'}
+# 神经网络框架Neuroph介绍
+```
+
+```{r child = 'ch4.rmd'}
+# 使用Java实现感知机
+```
+
+```{r child = 'ch4.rmd'}
+# 使用Java实现感知机
+```
+
+```{r child = 'ch5.rmd'}
+# ADALINE网络及其应用
+```
+
+```{r child = 'ch6.rmd'}
+# 多层感知机
+```
+	
+
+```{r child = 'ch8.rmd'}
+# Hopfield神经网络
 ```
 
 
-	
-
-    
-
-
-    
-
+```{r child = 'ch9.rmd'}
+# BAM双向联想记忆网络
+```
