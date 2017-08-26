@@ -46,7 +46,7 @@ alreadset <<- TRUE
 
 ### 购买此书
 
-[购买地址](http://www.uucode.net/201702/nncode)
+[购买地址](http://www.uucode.net/201708/annbuy)
 
 ```{r child = 'ch2.rmd'}
 # 人工神经元模型
