@@ -1,0 +1,14 @@
+body:after {
+content: url(res/logo.png);
+position: fixed;
+bottom: 3.5em;
+left: 3.5em;
+box-shadow: 5px 5px 10px #000; }
+
+div#alipay2{
+visibility:hidden;
+position: relative;
+top: -350px;
+width:271px;
+height:344px
+}

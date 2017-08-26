@@ -1,244 +1,530 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Billy" />
+  <title>自己动手写神经网络</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="index_files/reveal.js-3.3.0.1/css/reveal.css"/>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
 
-
-<meta name="author" content="Billy" />
-
-
-<title>自己动手写神经网络</title>
-
-<script src="index_files/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="index_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="index_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="index_files/navigation-1.1/tabsets.js"></script>
-<link href="index_files/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="index_files/highlightjs-1.1/highlight.js"></script>
-
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; } /* Keyword */
+code > span.dt { color: #dfdfbf; } /* DataType */
+code > span.dv { color: #dcdccc; } /* DecVal */
+code > span.bn { color: #dca3a3; } /* BaseN */
+code > span.fl { color: #c0bed1; } /* Float */
+code > span.ch { color: #dca3a3; } /* Char */
+code > span.st { color: #cc9393; } /* String */
+code > span.co { color: #7f9f7f; } /* Comment */
+code > span.ot { color: #efef8f; } /* Other */
+code > span.al { color: #ffcfaf; } /* Alert */
+code > span.fu { color: #efef8f; } /* Function */
+code > span.er { color: #c3bf9f; } /* Error */
+code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code > span.sc { color: #dca3a3; } /* SpecialChar */
+code > span.vs { color: #cc9393; } /* VerbatimString */
+code > span.ss { color: #cc9393; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #f0dfaf; } /* ControlFlow */
+code > span.op { color: #f0efd0; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #7f9f7f; } /* Documentation */
+code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+
+<link rel="stylesheet" href="index_files/reveal.js-3.3.0.1/css/theme/black.css" id="theme">
+
+<style type="text/css">
+.reveal section img {
+  background: rgba(255, 255, 255, 0.85);
 }
+</style>
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="res\temp-revealjs.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
 </script>
 
 
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
+* {
+	-webkit-print-color-adjust: exact;
 }
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
-<link rel="stylesheet" href="res\index.css" type="text/css" />
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
 
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="index_files/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 </head>
-
 <body>
+  <div class="reveal">
+    <div class="slides">
 
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-</style>
+<section>
+    <h1 class="title">自己动手写神经网络</h1>
+    <h2 class="author">Billy</h2>
+    <h3 class="date">2017年8月</h3>
+</section>
 
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
-
-<!-- code folding -->
-
-
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">自己动手写神经网络</h1>
-<h4 class="author"><em>Billy</em></h4>
-
-</div>
-
-
-<div class="section level2">
-<h2>开启神经网络之旅</h2>
-<p>欢迎各位有志之士来到这里，闲话少说，让我们一起开启神经网络之旅吧！ <img src="res/face.jpg" alt="自己动手写神经网络 封面" /></p>
-<div class="section level3">
-<h3><a href="http://www.uucode.net/201702/nncode">全书代码下载</a></h3>
-</div>
-<div class="section level3">
-<h3>购买此书</h3>
-</div>
-</div>
-<div class="section level2">
-<h2>人工神经元模型</h2>
-<p>人工神经元的模型：</p>
-<div class="figure">
-<img src="res/neurons-module.jpg" alt="人工神经元的模型" />
-<p class="caption">人工神经元的模型</p>
-</div>
-<p>该神经元拥有3个输入p1、p2和p3。其中，w和b是根据网络情况不断进行调整的，而传入函数s和传输函数f是事先选定，那究竟有哪些函数可以选择呢？传入函数比较简单，最常用的只有按照权重求和，在本例中，s处的输出（净输入n）就是： <img src="index_files/figure-html/gen_files/unnamed-chunk-1.png" width="273" /> 将该输出会作为参数传入输出函数<em>f</em>，并作为该神经元的最终输出。 常用的传输函数有：</p>
+<section class="slide level3">
+<h1>开启神经网络之旅</h1>
+<p>本PPT仅为《自己动手写神经网络》的提纲摘要 <img src="res/face.jpg" alt="自己动手写神经网络 封面" /></p>
+</section>
+<section class="slide level3">
+<h1>如何阅读我？</h1>
+<ul>
+<li>大家看到<code>右下角</code>箭头了吗？向左的箭头表示下一章节，向下的箭头表示下一页</li>
+<li>看到<code>左下角</code>的菜单了吗，可以随意穿梭于整个文档</li>
+<li>那么开始愉快的阅读吧！</li>
+</ul>
+</section>
+<section class="slide level3">
+<h1><a href="http://www.uucode.net/201702/nncode">全书代码下载</a></h1>
+</section>
+<section class="slide level3">
+<h1>购买此书</h1>
+<p><a href="http://www.uucode.net/201708/annbuy">购买地址</a></p>
+</section>
+<section><section class="titleslide slide level2"><h1>人工神经元模型</h1></section><section class="slide level3">
+<h1>人工神经元的模型：</h1>
+<p><img src="res/neurons-module.jpg" alt="人工神经元的模型" /></p>
+<p>该神经元拥有3个输入p1、p2和p3。其中，w和b是根据网络情况不断进行调整的，而传入函数s和传输函数f是事先选定，那究竟有哪些函数可以选择呢？传入函数比较简单，最常用的只有按照权重求和，在本例中，s处的输出（净输入n）就是： <img src="index_files/figure-revealjs/gen_files/unnamed-chunk-9.png" width="273" /></p>
+</section><section class="slide level3">
+<h1>常用传输函数</h1>
+<p>将该输出会作为参数传入输出函数<em>f</em>，并作为该神经元的最终输出。</p>
 <table>
 <thead>
 <tr class="header">
@@ -267,19 +553,33 @@ div.tocify {
 <td><img src="res/linear.jpg" /></td>
 <td>Linear</td>
 </tr>
-<tr class="even">
+</tbody>
+</table>
+</section><section class="slide level3">
+<h1>常用传输函数(续表)</h1>
+<table>
+<thead>
+<tr class="header">
+<th>函数名称</th>
+<th>映射关系</th>
+<th>图像</th>
+<th>缩写</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td>饱和线性函数</td>
 <td>a=0, n&lt;0<br />a=n, 0&lt;=n&lt;=1<br />a=1, n&gt;1</td>
 <td><img src="res/ramp.jpg" /></td>
 <td>Ramp</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>对数S形函数</td>
 <td><em>a=1/(1+exp(-n))</em></td>
 <td><img src="res/sigmoid.jpg" /></td>
 <td>Sigmoid</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>双曲正切S形函数</td>
 <td><img src="res/tanh_formular.jpg" /></td>
 <td><img src="res/tanh.jpg" /></td>
@@ -287,6 +587,8 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+</section><section class="slide level3">
+<h1>一个例子</h1>
 <p>假设p1=1，p2=0，p3=2，w1=1，w2=-1，w3=1，b=-1，则神经元的净输入为： p1<em>w1+p2</em>w2+p3<em>w3+b</em>1 <br/> =1<em>1+0</em>-1+2<em>1-1 <br/> =2 </em> <br/></p>
 <p>此时，传输函数与神经元输出的关系如表所示</p>
 <table>
@@ -311,40 +613,350 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>传输函数在神经元模型中非常重要，通常会选择特定的传输函数来解决特定的问题。这里再强调3类函数。首先值得注意的是Step函数，它非常简单，当输入小于0时，函数输出0，大于0时，输出1。该函数可以把输入简单得分为2类。在后续讲到的感知机中，就使用了该函数。</p>
-<p>其次，另外一个值得注意的函数是Linear线性函数，它总是简单的返回输入值。在一个Adaline网络中，会使用该函数。Adaline类似于感知机，但是因为使用线性函数和其对应的改良学习算法，Adaline相比感知机，可以更好的处理网络噪声。 最后一个值得注意的函数是Sigmoid函数，它接收任意实数输入，并将结果对应到0和1之间。该函数是可导的。因此，在BP神经网络中使用该函数（BP神经网络学习过程中，需要对传输函数求导）。</p>
-<p>单个神经元就可以构成一个最简单的神经网络——感知机。感知机可以处理简单的分类问题。比如，现在有2类水果，苹果和香蕉，人们通过识别苹果和香蕉的形状和颜色差别，来区分苹果和香蕉两种水果。刚出生的婴儿无法区分苹果和香蕉，因为在他们的大脑里，没有对应的分类信息。但通过不断地训练和外部刺激，告诉他们红色的圆形的是苹果，黄色的弯形的是香蕉，不需要多久，婴儿就可以分区这两类水果。用类似的方法也可以让感知机正确得对苹果和香蕉分类。具体的分类过程和原理，将在下一章节介绍。</p>
-</div>
+</section></section>
+<section><section id="neuroph" class="titleslide slide level2"><h1>神经网络框架Neuroph介绍</h1></section><section id="neuroph" class="slide level3">
+<h1>Neuroph系统的构成</h1>
+<p><img src="res/neuroph-arch.png" alt="人工神经元的模型" /></p>
+</section><section id="neuroph-studio" class="slide level3">
+<h1>Neuroph Studio的功能展示</h1>
+<p><img src="res/neuroph-show.png" alt="人工神经元的模型" /></p>
+</section></section>
+<section><section id="java" class="titleslide slide level2"><h1>使用Java实现感知机及其应用</h1></section><section class="slide level3">
+<h1>一个可以记忆逻辑与的神经网络</h1>
+<p><img src="res/xor-network.png" alt="感知机记忆逻辑与" /></p>
+</section><section class="slide level3">
+<h1>核心代码</h1>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dv">01</span> <span class="kw">private</span> <span class="dt">void</span> <span class="fu">createNetwork</span>(<span class="dt">int</span> inputNeuronsCount) {
+<span class="dv">02</span>  <span class="co">// 设置网络类别为 感知机</span>
+<span class="dv">03</span>  <span class="kw">this</span>.<span class="fu">setNetworkType</span>(NeuralNetworkType.<span class="fu">PERCEPTRON</span>);
+<span class="dv">04</span> 
+<span class="dv">05</span>  <span class="co">// 建立输入神经元 ，表示输入的刺激</span>
+<span class="dv">06</span>  NeuronProperties inputNeuronProperties = <span class="kw">new</span> <span class="fu">NeuronProperties</span>();
+<span class="dv">07</span>  inputNeuronProperties.<span class="fu">setProperty</span>(<span class="st">&quot;neuronType&quot;</span>, InputNeuron.<span class="fu">class</span>);
+<span class="dv">08</span> 
+<span class="dv">09</span>  <span class="co">// 由输入神经元构成的输入层</span>
+<span class="dv">10</span>  Layer inputLayer = LayerFactory.<span class="fu">createLayer</span>(inputNeuronsCount, inputNeuronProperties);
+<span class="dv">11</span>  <span class="kw">this</span>.<span class="fu">addLayer</span>(inputLayer);
+<span class="dv">12</span>  <span class="co">// 在输入层增加BiasNeuron，表示神经元偏置</span>
+<span class="dv">13</span>  inputLayer.<span class="fu">addNeuron</span>(<span class="kw">new</span> <span class="fu">BiasNeuron</span>());
+<span class="dv">14</span> 
+<span class="dv">15</span>  <span class="co">//设置传输函数为step()函数</span>
+<span class="dv">16</span>  NeuronProperties outputNeuronProperties = <span class="kw">new</span> <span class="fu">NeuronProperties</span>();
+<span class="dv">17</span>  outputNeuronProperties.<span class="fu">setProperty</span>(<span class="st">&quot;transferFunction&quot;</span>, TransferFunctionType.<span class="fu">STEP</span>);
+<span class="dv">18</span>  Layer outputLayer = LayerFactory.<span class="fu">createLayer</span>(<span class="dv">1</span>, outputNeuronProperties);
+<span class="dv">19</span>  <span class="kw">this</span>.<span class="fu">addLayer</span>(outputLayer);
+<span class="dv">20</span>  
+<span class="dv">21</span>  <span class="co">//将输入层和输出层进行全连接</span>
+<span class="dv">22</span>  ConnectionFactory.<span class="fu">fullConnect</span>(inputLayer, outputLayer);
+<span class="dv">23</span>  NeuralNetworkFactory.<span class="fu">setDefaultIO</span>(<span class="kw">this</span>);
+<span class="dv">24</span>  Neuron n = outputLayer.<span class="fu">getNeuronAt</span>(<span class="dv">0</span>);
+<span class="dv">25</span>  
+<span class="dv">26</span>  <span class="co">//设置输入神经元和感知机之间的连接权重</span>
+<span class="dv">27</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">0</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(<span class="dv">1</span>);
+<span class="dv">28</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">1</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(<span class="dv">1</span>);
+<span class="dv">29</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">2</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(-<span class="fl">1.5</span>);
+<span class="dv">30</span> }</code></pre></div>
+</section></section>
+<section><section id="java-1" class="titleslide slide level2"><h1>使用Java实现感知机及其应用</h1></section><section id="-1" class="slide level3">
+<h1>一个可以记忆逻辑与的神经网络</h1>
+<p><img src="res/xor-network.png" alt="感知机记忆逻辑与" /></p>
+</section><section id="-1" class="slide level3">
+<h1>核心代码</h1>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dv">01</span> <span class="kw">private</span> <span class="dt">void</span> <span class="fu">createNetwork</span>(<span class="dt">int</span> inputNeuronsCount) {
+<span class="dv">02</span>  <span class="co">// 设置网络类别为 感知机</span>
+<span class="dv">03</span>  <span class="kw">this</span>.<span class="fu">setNetworkType</span>(NeuralNetworkType.<span class="fu">PERCEPTRON</span>);
+<span class="dv">04</span> 
+<span class="dv">05</span>  <span class="co">// 建立输入神经元 ，表示输入的刺激</span>
+<span class="dv">06</span>  NeuronProperties inputNeuronProperties = <span class="kw">new</span> <span class="fu">NeuronProperties</span>();
+<span class="dv">07</span>  inputNeuronProperties.<span class="fu">setProperty</span>(<span class="st">&quot;neuronType&quot;</span>, InputNeuron.<span class="fu">class</span>);
+<span class="dv">08</span> 
+<span class="dv">09</span>  <span class="co">// 由输入神经元构成的输入层</span>
+<span class="dv">10</span>  Layer inputLayer = LayerFactory.<span class="fu">createLayer</span>(inputNeuronsCount, inputNeuronProperties);
+<span class="dv">11</span>  <span class="kw">this</span>.<span class="fu">addLayer</span>(inputLayer);
+<span class="dv">12</span>  <span class="co">// 在输入层增加BiasNeuron，表示神经元偏置</span>
+<span class="dv">13</span>  inputLayer.<span class="fu">addNeuron</span>(<span class="kw">new</span> <span class="fu">BiasNeuron</span>());
+<span class="dv">14</span> 
+<span class="dv">15</span>  <span class="co">//设置传输函数为step()函数</span>
+<span class="dv">16</span>  NeuronProperties outputNeuronProperties = <span class="kw">new</span> <span class="fu">NeuronProperties</span>();
+<span class="dv">17</span>  outputNeuronProperties.<span class="fu">setProperty</span>(<span class="st">&quot;transferFunction&quot;</span>, TransferFunctionType.<span class="fu">STEP</span>);
+<span class="dv">18</span>  Layer outputLayer = LayerFactory.<span class="fu">createLayer</span>(<span class="dv">1</span>, outputNeuronProperties);
+<span class="dv">19</span>  <span class="kw">this</span>.<span class="fu">addLayer</span>(outputLayer);
+<span class="dv">20</span>  
+<span class="dv">21</span>  <span class="co">//将输入层和输出层进行全连接</span>
+<span class="dv">22</span>  ConnectionFactory.<span class="fu">fullConnect</span>(inputLayer, outputLayer);
+<span class="dv">23</span>  NeuralNetworkFactory.<span class="fu">setDefaultIO</span>(<span class="kw">this</span>);
+<span class="dv">24</span>  Neuron n = outputLayer.<span class="fu">getNeuronAt</span>(<span class="dv">0</span>);
+<span class="dv">25</span>  
+<span class="dv">26</span>  <span class="co">//设置输入神经元和感知机之间的连接权重</span>
+<span class="dv">27</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">0</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(<span class="dv">1</span>);
+<span class="dv">28</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">1</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(<span class="dv">1</span>);
+<span class="dv">29</span>  n.<span class="fu">getInputConnections</span>()[<span class="dv">2</span>].<span class="fu">getWeight</span>().<span class="fu">setValue</span>(-<span class="fl">1.5</span>);
+<span class="dv">30</span> }</code></pre></div>
+</section></section>
+<section><section id="adaline" class="titleslide slide level2"><h1>ADALINE网络及其应用</h1></section><section id="adaline" class="slide level3">
+<h1>ADALINE网络结构</h1>
+<p><img src="res/adaline-struct.png" alt="ADALINE网络结构" /></p>
+</section><section id="adaline" class="slide level3">
+<h1>ADALINE网络算法</h1>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-10.png" width="273" /></p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-11.png" width="273" /></p>
+</section><section id="adaline" class="slide level3">
+<h1>ADALINE学习算法的实现</h1>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dv">01</span> <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">updateNetworkWeights</span>(<span class="dt">double</span>[] outputError) {
+<span class="dv">02</span>     <span class="dt">int</span> i = <span class="dv">0</span>;
+<span class="dv">03</span>     <span class="co">// for each neuron in output layer</span>
+<span class="dv">04</span>     <span class="kw">for</span> (Neuron neuron : neuralNetwork.<span class="fu">getOutputNeurons</span>()) {
+<span class="dv">05</span>         neuron.<span class="fu">setError</span>(outputError[i]); 
+<span class="dv">06</span>         <span class="kw">this</span>.<span class="fu">updateNeuronWeights</span>(neuron); 
+<span class="dv">07</span>         i++;
+<span class="dv">08</span>     }
+<span class="dv">09</span> }
+<span class="dv">10</span> 
+<span class="dv">11</span> <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">updateNeuronWeights</span>(Neuron neuron) {
+<span class="dv">12</span>     <span class="co">// 取得神经元误差</span>
+<span class="dv">13</span>     <span class="dt">double</span> neuronError = neuron.<span class="fu">getError</span>();
+<span class="dv">14</span> 
+<span class="dv">15</span>     <span class="co">// 根据所有的神经元输入 迭代学习</span>
+<span class="dv">16</span>     <span class="kw">for</span> (Connection connection : neuron.<span class="fu">getInputConnections</span>()) {
+<span class="dv">17</span>         <span class="co">// 神经元的一个输入</span>
+<span class="dv">18</span>         <span class="dt">double</span> input = connection.<span class="fu">getInput</span>();
+<span class="dv">19</span>         <span class="co">// 计算权值的变更</span>
+<span class="dv">20</span>         <span class="dt">double</span> weightChange = <span class="kw">this</span>.<span class="fu">learningRate</span> * neuronError * input;
+<span class="dv">21</span>         <span class="co">// 更新权值</span>
+<span class="dv">22</span>         Weight weight = connection.<span class="fu">getWeight</span>();
+<span class="dv">23</span>         weight.<span class="fu">weightChange</span> = weightChange;                
+<span class="dv">24</span>         weight.<span class="fu">value</span> += weightChange;
+<span class="dv">25</span>     }
+<span class="dv">26</span> }</code></pre></div>
+</section><section id="adaline" class="slide level3">
+<h1>使用ADALINE网络识别数字</h1>
+<p>使用ADALINE网络可以识别数字 <img src="res/adaline_a.png" alt="数字" /></p>
+</section><section id="adaline" class="slide level3">
+<h1>ADALINE网络对噪音的处理</h1>
+<p><img src="res/adaline_b.png" alt="数字" /></p>
+</section></section>
+<section><section id="bp" class="titleslide slide level2"><h1>多层感知机和BP学习算法</h1></section><section class="slide level3">
+<h1>多层感知机的结构</h1>
+<p><img src="res/mlp-struct.png" alt="多层感知机结构" /></p>
+</section><section class="slide level3">
+<h1>多层感知机处理异或问题</h1>
+<p><img src="res/mlp-xor.png" alt="多层感知机处理异或问题" /></p>
+</section><section class="slide level3">
+<h1>多层感知机学习算法的实现</h1>
+<p>在Neuroph框架中，对多层感知机算法的封装如下： <img src="res/mlp-alg.png" /></p>
+</section><section id="backpropagation" class="slide level3">
+<h1>BackPropagation算法简述</h1>
+<p>BackPropagation算法属于有监督的迭代训练，因此，从继承结构上看，它隶属于IterativeLearning和SupervisedLearning算法。这里的迭代指网络根据给定的训练数据在有限的循环周期内不断调整权值，直到误差到可接收范围，或者达到最大的迭代次数。有监督的学习方式表示BackPropagation需要使用期望值来调衡自身权值，也就是每次网络的输出都可以找到对应的误差，存在一个可靠的指标指导网络的训练</p>
+</section><section class="slide level3">
+<h1>算法核心</h1>
+<p>BP神经网络要达到的目标是误差平方和最小，误差平方和公式：</p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-12.png" width="273" /></p>
+</section></section>
+<section><section id="hopfield" class="titleslide slide level2"><h1>Hopfield神经网络</h1></section><section id="hopfield" class="slide level3">
+<h1>Hopfield神经网络结构</h1>
+<p><img src="res/hopfield.png" alt="Hopfield神经网络结构" /></p>
+</section><section id="hopfield" class="slide level3">
+<h1>Hopfield神经网络运行</h1>
+<p>可以看到，严格意义上说，网络只有一层，但是在这一层中，所有的神经元均两两连接。网络从一个输入向量开始计算后，每次迭代时，总是把上一次的输出作为下一次的输入。离散型Hopfield网络的神经元传输函数通常为符号函数sgn。单个神经元不接受自反馈，即w<sub>ii</sub>=0，同时，网络的连接权重通常是对称的，w<sub>ij</sub>=w<sub>ji</sub>，即神经元i到神经元j的连接权值和神经元j到神经元i的连接权值是相等。权值矩阵的对成性，是网络能够收敛到吸引子的一个非常重要的前提条件。</p>
+</section><section id="hopfield" class="slide level3">
+<h1>Hopfield网络还原带有噪点的字符</h1>
+<p>当Hopfield网络记住如下01后，就可以对带有噪音的数字进行联系识别</p>
+<p><img src="res/hopfield01.png" alt="用于记忆的图片" /></p>
+<p>带有噪点的图片</p>
+<p><img src="res/hopfield01_bad.png" alt="带有噪点的图片" /></p>
+</section></section>
+<section><section id="bam" class="titleslide slide level2"><h1>BAM双向联想记忆网络</h1></section><section id="bam" class="slide level3">
+<h1>BAM网络的结构与原理</h1>
+<p>BAM网络是一种双向双层网络，所谓双层，表示BAM有2层结构，双向则表示在这2层结构中，每一层均可作为输入层，也可以作为输出层。如图9.1所示，显示这种网络结构。可以看到，该网络有两层组成，x层5个神经元，y层包含3个神经元。层内的神经元没有连接，层与层之间神经元两两连接。</p>
+</section><section id="bam" class="slide level3">
+<h1>BAM网络的结构图</h1>
+<p><img src="res/bam.png" alt="BAM网络的结构图" /></p>
+</section><section id="bam" class="slide level3">
+<h1>BAM网络的学习算法</h1>
+<p>对于离线BAM网络，一般两侧均选取Sgn函数作为传输函数。当网络需要存储一对模式（X1，Y1）时，若要使网络达到稳定状态，应该满足如下条件：</p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-13.png" width="273" /> <img src="index_files/figure-revealjs/gen_files/unnamed-chunk-14.png" width="273" /></p>
+<p>其中W为权值矩阵。一种符合条件的W可以通过以下公式计算，即W为向量X和Y的外积：</p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-15.png" width="273" /> <img src="index_files/figure-revealjs/gen_files/unnamed-chunk-16.png" width="273" /></p>
+<p>如果要存储N对模式，则可以使用以下公式，对N对模式的外积求和：</p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-17.png" width="273" /></p>
+<p><img src="index_files/figure-revealjs/gen_files/unnamed-chunk-18.png" width="273" /></p>
+</section><section id="bam" class="slide level3">
+<h1>BAM网络记忆电话号码</h1>
+<p>BAM网络应用的一个典型的例子就是人名和电话号码的记忆。在我们的手机通讯录里，通常会保存一些电话号码。这些电话号码总是会与一个人名相对应。比如一个名叫TINA的联系人，他的电话是6843726。那么，TINA和6843726之间就有着很强的映射关系。如果这是一个你经常访问的家人，如父母，你应该很容易的就能从TINA联想到6843726。同时，如果你只看到6843726，也一定会觉得很熟悉，很自然得会想到这个号码的主人TINA。更进一步的，如果有人把TINA的名字写错了，写成了TINE，和TINA很像，如果此时你也正在找TINA的联系方式，你是不是也会通过TINE和直接联想到TINA以及6843726呢？同理，如果给出了一个错误的号码6843725，你自然也会想到你的一个家人的电话恰好是6843726，而这个人叫做TINA。</p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="index_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="index_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+        menu: {
+          custom: false,
+          themes: false,
+          transitions: false
+        },
 
 
 
-</div>
-</div>
-
-</div>
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'index_files/reveal.js-3.3.0.1/plugin/menu/menu.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
 
 <script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
   })();
 </script>
 
-</body>
+
+		<!-- Everything below this point is only used for the reveal.js demo page -->
+
+		<a class="fork-reveal" style="display: none;" href="http://www.uucode.net"><img style="position: absolute; top: 0; right: 0; border: 0;" src="res/logo_right_top.png" alt="由优优码(www.uucode.net)制作"></a>
+
+		<div class="share-reveal" style="display: none; position: absolute; bottom: 16px; left: 50%; margin-left: -139px; z-index: 20;">
+
+		<a class="share-reveal-editor" href="http://www.uucode.net/201708/annbuy" target="_blank" style="text-align:center">
+		  购买此书
+		</a>
+
+		</div>
+		<script>
+           function showImg() {
+                var ele = document.getElementById("alipay2");
+				ele.style.visibility = "visible";
+			}
+
+			function hideImg() {
+				var ele = document.getElementById("alipay2")
+				ele.style.visibility = "hidden";
+			}
+		</script>
+		<style>
+			/* Social sharing */
+			.share-reveal a {
+				display: inline-block;
+				height: 34px;
+				line-height: 32px;
+				padding: 0 10px;
+				color: #fff;
+				font-family: Helvetica, sans-serif;
+				text-decoration: none;
+				font-weight: bold;
+				font-size: 12px;
+				vertical-align: top;
+				text-transform: uppercase;
+				box-sizing: border-box;
+			}
+
+			.share-reveal .share-reveal-editor {
+				line-height: 30px;
+			}
+
+			.share-reveal svg {
+				vertical-align: middle;
+			}
+
+			.share-reveal a + a {
+				margin-left: 10px;
+			}
+
+			.share-reveal-editor {
+				border: 2px solid #fff;
+			}
+
+			.share-reveal-twitter,
+			.share-reveal-follow {
+				background-color: #00aced;
+			}
+
+			.share-reveal-facebook {
+				background-color: #4B71B8;
+			}
+
+			/* Advertising */
+			#carbonads {
+				width: 370px;
+				min-height: 100px;
+				font-size: 18px;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				padding: 10px;
+				margin: 40px auto 0 auto;
+				font-size: 16px;
+				z-index: 10;
+				text-align: left;
+			}
+
+			#carbonads .carbon-img img {
+				float: left;
+				margin: 0 10px 0 0;
+				border: 0;
+				box-shadow: none;
+			}
+
+			#carbonads .carbon-poweredby {
+				display: block;
+				margin-top: 10px;
+				color: #aaa;
+			}
+		</style>
+
+		<script>
+			[].slice.call( document.querySelectorAll( '.share-reveal-facebook, .share-reveal-twitter' ) ).forEach( function( element ) {
+				element.addEventListener( 'click', function( event ) {
+					event.preventDefault();
+					var width = 500, height = 300;
+					var winTop = window.screenY + (window.screen.height / 2) - (height / 2);
+					var winLeft = window.screenX + (window.screen.width / 2) - (width / 2);
+					window.open(this.href, 'shre', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + width + ',height=' + height);
+				} );
+			} );
+
+			if( !navigator.userAgent.match( /(iphone|android)/gi ) && !!document.querySelector ) {
+				document.querySelector( '.share-reveal' ).style.display = 'block';
+				document.querySelector( '.fork-reveal' ).style.display = 'block';
+			}
+		</script>
+
+		<a class="share-reveal-facebook" href="#">
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jiathis_r.js?type=left&amp;move=0&amp;btn=l4.gif" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+		</a>
+
+<script language="javascript" src="http://count29.51yes.com/click.aspx?id=299702422&logo=11" charset="gb2312"></script>
+
+  </body>
 </html>
